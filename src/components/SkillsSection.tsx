@@ -1,26 +1,31 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Palette, Camera, PenTool, FileImage, Sun, Film } from "lucide-react";
+import photoshopIcon from "@/assets/skills/photoshop.png";
+import illustratorIcon from "@/assets/skills/illustrator.png";
+import premiereIcon from "@/assets/skills/premiere.png";
+import indesignIcon from "@/assets/skills/indesign.png";
+import aftereffectsIcon from "@/assets/skills/aftereffects.png";
+import lightroomIcon from "@/assets/skills/lightroom.png";
 
 const SkillsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const skills = [
-    { name: "Photoshop", level: 95, icon: Palette, color: "#31a8ff" },
-    { name: "Photography", level: 92, icon: Camera, color: "#c8ff00" },
-    { name: "Illustrator", level: 88, icon: PenTool, color: "#ff9a00" },
-    { name: "InDesign", level: 85, icon: FileImage, color: "#ff3366" },
-    { name: "Lightroom", level: 90, icon: Sun, color: "#31a8ff" },
-    { name: "After Effects", level: 80, icon: Film, color: "#9999ff" },
+    { name: "Photoshop", level: 95, icon: photoshopIcon, color: "#31a8ff" },
+    { name: "Premiere", level: 92, icon: premiereIcon, color: "#EA77FF" },
+    { name: "Illustrator", level: 88, icon: illustratorIcon, color: "#ff9a00" },
+    { name: "InDesign", level: 85, icon: indesignIcon, color: "#ff3366" },
+    { name: "Lightroom", level: 90, icon: lightroomIcon, color: "#31a8ff" },
+    { name: "After Effects", level: 80, icon: aftereffectsIcon, color: "#9999ff" },
   ];
 
   return (
     <section id="skills" className="py-16 sm:py-24 relative overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-10 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -28,7 +33,7 @@ const SkillsSection = () => {
         >
           <p className="section-subtitle">Skills</p>
           <h2 className="section-title">
-            Tools of <span className="text-primary">Creativity</span>
+            Tools I <span className="text-primary">Create With</span>
           </h2>
         </motion.div>
 
@@ -44,13 +49,13 @@ const SkillsSection = () => {
               whileHover={{ y: -5 }}
             >
               {/* Icon */}
-              <div 
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl mx-auto mb-3 sm:mb-4 flex items-center justify-center transition-colors"
-                style={{ backgroundColor: `${skill.color}20` }}
+              <div
+                className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl mx-auto mb-3 sm:mb-4 flex items-center justify-center overflow-hidden bg-[#050505]"
               >
-                <skill.icon 
-                  className="w-6 h-6 sm:w-8 sm:h-8"
-                  style={{ color: skill.color }}
+                <img
+                  src={skill.icon}
+                  alt={skill.name}
+                  className="w-full h-full object-cover scale-[1.02]"
                 />
               </div>
 
@@ -68,7 +73,7 @@ const SkillsSection = () => {
                   animate={isInView ? { width: `${skill.level}%` } : {}}
                   transition={{ duration: 1.2, delay: 0.5 + index * 0.1, ease: "easeOut" }}
                 />
-                <span 
+                <span
                   className="relative z-10 font-bold text-xs sm:text-sm flex items-center justify-center h-full text-foreground"
                 >
                   {skill.level}%

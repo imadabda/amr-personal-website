@@ -1,6 +1,5 @@
-import { ArrowUpRight, Palette, Camera, Megaphone, Image, FileText } from "lucide-react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { ArrowUpRight, Palette, Smartphone, Sparkles, Key } from "lucide-react";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 
 const ServicesSection = () => {
@@ -12,32 +11,26 @@ const ServicesSection = () => {
     {
       number: "01",
       title: "Brand Identity Design",
-      description: "Creating unique visual identities that reflect your brand's personality",
+      description: "Creating unique visual identities and brand strategies that reflect your business personality.",
       icon: Palette,
     },
     {
       number: "02",
-      title: "Professional Photography",
-      description: "High-quality photography for products, people, and events",
-      icon: Camera,
+      title: "Social media designs",
+      description: "High-performance visual content for social media designed to stop the scroll and drive engagement.",
+      icon: Smartphone,
     },
     {
       number: "03",
-      title: "Advertising Design",
-      description: "Creative campaigns for social media and print materials",
-      icon: Megaphone,
+      title: "Retouching",
+      description: "Professional photo retouching and enhancement to ensure every detail of your brand visuals is perfect.",
+      icon: Sparkles,
     },
     {
       number: "04",
-      title: "Visual Content",
-      description: "Engaging visual content that increases audience interaction",
-      icon: Image,
-    },
-    {
-      number: "05",
-      title: "Print Design",
-      description: "Brochures, catalogs, business cards and marketing materials",
-      icon: FileText,
+      title: "master key visual (KvS)",
+      description: "Developing powerful master key visuals that define the core aesthetic of your entire marketing campaign.",
+      icon: Key,
     },
   ];
 
@@ -45,7 +38,7 @@ const ServicesSection = () => {
     <section id="services" className="py-16 sm:py-24 relative overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4">
         {/* Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-10 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -91,9 +84,9 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Arrow */}
-                <motion.div 
+                <motion.div
                   className="w-8 h-8 sm:w-10 md:w-12 sm:h-10 md:h-12 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-colors"
-                  animate={{ 
+                  animate={{
                     rotate: hoveredIndex === index ? 45 : 0,
                   }}
                 >

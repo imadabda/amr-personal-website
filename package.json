@@ -1,7 +1,9 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "creative-canvas-studio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Premium Portfolio for Amr Shendy - Developed by Imad Abda",
+  "author": "Imad Abda (www.imadabda.com)",
   "type": "module",
   "scripts": {
     "dev": "vite",

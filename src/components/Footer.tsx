@@ -4,6 +4,9 @@ import logo from "@/assets/logo.png";
 const Footer = () => {
   const socialLinks = [
     { name: "Behance", href: "https://www.behance.net/amrshendy431f2" },
+    { name: "Instagram", href: "https://www.instagram.com/amr_shendy/" },
+    { name: "LinkedIn", href: "https://eg.linkedin.com/in/amr-shendy-7604a2181/ar" },
+    { name: "Mustaqil", href: "https://mostaql.com/u/DESINK_EG" },
   ];
 
   return (
@@ -11,7 +14,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col gap-6 sm:gap-0 sm:flex-row items-center justify-between">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
@@ -24,6 +27,8 @@ const Footer = () => {
               <a
                 key={link.name}
                 href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
               >
                 {link.name}

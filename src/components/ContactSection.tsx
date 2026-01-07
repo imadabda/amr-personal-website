@@ -19,8 +19,8 @@ const ContactSection = () => {
   });
 
   const contactItems = [
-    { icon: Mail, label: "Email", value: "contact@shendystudio.com" },
-    { icon: Phone, label: "Phone", value: "+20 109 894 4917" },
+    { icon: Mail, label: "Email", value: "CEO@Shendystudio.com", href: "mailto:CEO@Shendystudio.com" },
+    { icon: Phone, label: "Phone", value: "+20 10 67385584", href: "tel:+201067385584" },
     { icon: MapPin, label: "Location", value: "Egypt" },
   ];
 
@@ -44,7 +44,7 @@ ${formData.service ? `الخدمة: ${formData.service}` : ''}
 الرسالة:
 ${formData.message}`;
 
-    const whatsappUrl = `https://wa.me/201098944917?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappUrl = `https://wa.me/201067385584?text=${encodeURIComponent(whatsappMessage)}`;
 
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
@@ -143,10 +143,10 @@ ${formData.message}`;
                   className="w-full bg-secondary border border-border rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all"
                 >
                   <option value="">Select a service</option>
-                  <option value="branding">Brand Identity</option>
-                  <option value="photo">Photography</option>
-                  <option value="ads">Advertising Design</option>
-                  <option value="content">Visual Content</option>
+                  <option value="Brand Identity Design">Brand Identity Design</option>
+                  <option value="Social media designs">Social media designs</option>
+                  <option value="Retouching">Retouching</option>
+                  <option value="master key visual (KvS)">master key visual (KvS)</option>
                 </select>
               </div>
 

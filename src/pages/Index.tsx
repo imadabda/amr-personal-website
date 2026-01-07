@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
+import ExperienceSection from "@/components/ExperienceSection";
 import ServicesSection from "@/components/ServicesSection";
 import SkillsSection from "@/components/SkillsSection";
 import PortfolioSection from "@/components/PortfolioSection";
@@ -14,11 +15,12 @@ const Index = () => {
     <div className="min-h-screen bg-background relative overflow-x-hidden w-full max-w-full">
       {/* Full page animated background */}
       <AnimatedBackground />
-      
+
       <Header />
       <main className="relative z-10 overflow-x-hidden">
         <HeroSection />
         <AboutSection />
+        <ExperienceSection />
         <ServicesSection />
         <PortfolioSection />
         <ClientsMarquee />

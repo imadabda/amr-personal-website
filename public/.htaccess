@@ -2,10 +2,11 @@
   RewriteEngine On
   RewriteBase /
   
-  # Don't rewrite files or directories
+  # Don't rewrite files, directories, or API requests
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteCond %{REQUEST_URI} !^/api/
   
   # Redirect all requests to index.html
   RewriteRule . /index.html [L]
