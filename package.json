@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp -R api dist/",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
