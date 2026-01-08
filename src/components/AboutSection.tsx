@@ -17,6 +17,43 @@ const AboutSection = () => {
     });
   };
 
+  const [aboutContent, setAboutContent] = useState({
+    title: "About Me",
+    heading: "With +9 years of experience",
+    description: "I help brands turn attention into action. With 9+ years of experience, I specialize in creating high-performance visual content for social media and digital advertising, designed to stop the scroll and drive real results.\n\nI’ve worked extensively with brands in the GCC market (KSA, UAE, Oman), focusing on data-driven design that supports growth, engagement, and conversion.",
+    bullets: [
+      "Creative direction for 50+ monthly ad campaigns",
+      "Up to 25% increase in ROAS for e-commerce clients",
+      "40% growth in organic engagement through strategic visuals"
+    ],
+    email: "CEO@Shendystudio.com",
+    phone: "+20 10 67385584"
+  });
+
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const response = await fetch('/api/stats.php');
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.status !== "error") {
+            setAboutContent({
+              title: data.about_title || "About Me",
+              heading: data.about_heading || "With +9 years of experience",
+              description: data.about_description || "",
+              bullets: data.about_bullets ? data.about_bullets.split('\n').filter((b: string) => b.trim() !== '') : [],
+              email: data.contact_email || "CEO@Shendystudio.com",
+              phone: data.contact_phone || "+20 10 67385584"
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch about data:", error);
+      }
+    };
+    fetchAbout();
+  }, []);
+
   const services = [
     { text: "Social media designs", icon: Smartphone },
     { text: "Brand Identity Design", icon: Palette },
@@ -49,28 +86,19 @@ const AboutSection = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full relative z-20"
           >
-            <p className="section-subtitle">About Me</p>
+            <p className="section-subtitle">{aboutContent.title}</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 text-primary leading-[1.1] whitespace-nowrap">
-              With +9 years of experience
+              {aboutContent.heading}
             </h2>
             <div className="space-y-6 text-muted-foreground text-sm sm:text-lg leading-relaxed mb-10 max-w-2xl font-light">
-              <p>
-                I help brands turn attention into action.{"\n"}
-                With 9+ years of experience, I specialize in creating high-performance visual content for social media and digital advertising, designed to stop the scroll and drive real results.
-              </p>
-
-              <p>
-                I’ve worked extensively with brands in the GCC market (KSA, UAE, Oman), focusing on data-driven design that supports growth, engagement, and conversion.
+              <p className="whitespace-pre-line">
+                {aboutContent.description}
               </p>
 
               <div className="space-y-4 pt-4">
                 <p className="font-semibold text-foreground tracking-wide">What I bring to the table:</p>
                 <div className="space-y-3">
-                  {[
-                    "Creative direction for 50+ monthly ad campaigns",
-                    "Up to 25% increase in ROAS for e-commerce clients",
-                    "40% growth in organic engagement through strategic visuals"
-                  ].map((item, i) => (
+                  {aboutContent.bullets.map((item, i) => (
                     <div key={i} className="flex items-start gap-3 group">
                       <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 group-hover:scale-150 transition-transform duration-300 shadow-[0_0_8px_var(--primary)]" />
                       <p className="flex-1">{item}</p>
@@ -100,11 +128,11 @@ const AboutSection = () => {
             <div className="flex flex-wrap gap-x-12 gap-y-4 pt-8 border-t border-white/5 opacity-80">
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Collaboration</span>
-                <span className="text-foreground text-sm font-medium">CEO@Shendystudio.com</span>
+                <span className="text-foreground text-sm font-medium">{aboutContent.email}</span>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Direct Line</span>
-                <span className="text-foreground text-sm font-medium">+20 10 67385584</span>
+                <span className="text-foreground text-sm font-medium">{aboutContent.phone}</span>
               </div>
             </div>
           </motion.div>

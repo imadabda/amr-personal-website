@@ -13,19 +13,30 @@ const HeroSection = () => {
 
   const [cvLink, setCvLink] = useState("/cv.pdf");
 
+  const [heroContent, setHeroContent] = useState({
+    title: "Amr Shendy",
+    subtitle: "Senior graphic designer",
+    description: "I help brands turn attention into action\nWith + 9 years of experience, I specialize in creating high-performance visual content for\n•social media and digital advertising, designed to stop the scroll and drive real results."
+  });
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const response = await fetch('/api/stats.php');
         if (response.ok) {
           const data = await response.json();
-          if (data) {
+          if (data && data.status !== "error") {
             setStats([
               { number: data.experience || "8+", label: "Years in Design", icon: Palette },
               { number: data.advertising || "9+", label: "Years in Advertising", icon: Sparkles },
               { number: data.projects || "100+", label: "Projects Completed", icon: Camera },
             ]);
             if (data.cv_filename) setCvLink(data.cv_filename);
+            setHeroContent({
+              title: data.hero_title || "Amr Shendy",
+              subtitle: data.hero_subtitle || "Senior graphic designer",
+              description: data.hero_description || "I help brands turn attention into action\nWith + 9 years of experience, I specialize in creating high-performance visual content for\n•social media and digital advertising, designed to stop the scroll and drive real results."
+            });
           }
         }
       } catch (error) {
@@ -181,7 +192,7 @@ const HeroSection = () => {
             {/* Main Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 tracking-tight leading-tight">
               <span className="text-primary inline-flex flex-wrap justify-center lg:justify-start">
-                {title.split("").map((char, i) => (
+                {heroContent.title.split("").map((char, i) => (
                   <motion.span
                     key={i}
                     custom={i}
@@ -201,7 +212,7 @@ const HeroSection = () => {
                 animate={{ opacity: 1, rotateX: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
               >
-                Senior graphic designer
+                {heroContent.subtitle}
               </motion.span>
             </h1>
 
@@ -212,9 +223,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
             >
-              I help brands turn attention into action
-              With + 9 years of experience, I specialize in creating high-performance visual content for
-              •social media and digital advertising, designed to stop the scroll and drive real results.
+              {heroContent.description}
             </motion.p>
 
             {/* CTA Buttons */}

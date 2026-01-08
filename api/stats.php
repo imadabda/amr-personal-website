@@ -12,19 +12,30 @@ if ($method === 'GET') {
 elseif ($method === 'POST') {
     $data = JSON_decode(file_get_contents("php://input"), true);
     
+    $allowed_fields = [
+        'experience', 'advertising', 'projects', 'cv_filename',
+        'hero_title', 'hero_subtitle', 'hero_description',
+        'about_title', 'about_heading', 'about_description', 'about_bullets',
+        'contact_email', 'contact_phone'
+    ];
+    
     $fields = [];
     $params = [];
     
-    if (isset($data['experience'])) { $fields[] = "experience = ?"; $params[] = $data['experience']; }
-    if (isset($data['advertising'])) { $fields[] = "advertising = ?"; $params[] = $data['advertising']; }
-    if (isset($data['projects'])) { $fields[] = "projects = ?"; $params[] = $data['projects']; }
-    if (isset($data['cv_filename'])) { $fields[] = "cv_filename = ?"; $params[] = $data['cv_filename']; }
+    foreach ($allowed_fields as $field) {
+        if (isset($data[$field])) {
+            $fields[] = "$field = ?";
+            $params[] = $data[$field];
+        }
+    }
     
     if (count($fields) > 0) {
         $sql = "UPDATE stats SET " . implode(", ", $fields) . " WHERE id = 1";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         echo json_encode(["status" => "success"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "No valid fields provided"]);
     }
 }
 ?>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plus, Trash2, Save, Upload, ArrowLeft, Image as ImageIcon, Briefcase, FileText, BarChart3 } from "lucide-react";
+import { Plus, Trash2, Save, Upload, ArrowLeft, Image as ImageIcon, Briefcase, FileText, BarChart3, Type, Info, Mail as MailIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,16 @@ const Admin = () => {
     const [stats, setStats] = useState({
         experience: "9+",
         advertising: "9+",
-        projects: "100+"
+        projects: "100+",
+        hero_title: "Amr Shendy",
+        hero_subtitle: "Senior graphic designer",
+        hero_description: "",
+        about_title: "About Me",
+        about_heading: "With +9 years of experience",
+        about_description: "",
+        about_bullets: "",
+        contact_email: "CEO@Shendystudio.com",
+        contact_phone: "+20 10 67385584"
     });
 
     const [portfolioItems, setPortfolioItems] = useState<any[]>([]);
@@ -41,24 +51,42 @@ const Admin = () => {
                 const statsRes = await fetch('/api/stats.php');
                 if (statsRes.ok) {
                     const data = await statsRes.json();
-                    if (data) {
+                    if (data && data.status !== "error") {
                         setStats({
-                            experience: data.experience,
-                            advertising: data.advertising,
-                            projects: data.projects
+                            experience: data.experience || "9+",
+                            advertising: data.advertising || "9+",
+                            projects: data.projects || "100+",
+                            hero_title: data.hero_title || "Amr Shendy",
+                            hero_subtitle: data.hero_subtitle || "Senior graphic designer",
+                            hero_description: data.hero_description || "",
+                            about_title: data.about_title || "About Me",
+                            about_heading: data.about_heading || "With +9 years of experience",
+                            about_description: data.about_description || "",
+                            about_bullets: data.about_bullets || "",
+                            contact_email: data.contact_email || "CEO@Shendystudio.com",
+                            contact_phone: data.contact_phone || "+20 10 67385584"
                         });
-                        setCvFile(data.cv_filename);
+                        setCvFile(data.cv_filename || "CV.pdf");
                     }
                 }
 
                 const portfolioRes = await fetch('/api/portfolio.php');
                 if (portfolioRes.ok) {
                     const data = await portfolioRes.json();
-                    setPortfolioItems(data || []);
+                    if (Array.isArray(data)) {
+                        setPortfolioItems(data);
+                    } else {
+                        setPortfolioItems([]);
+                        if (data && data.status === "error") {
+                            toast.error("Database error: " + data.message);
+                        } else {
+                            console.error("Portfolio data format error:", data);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error("Failed to fetch data:", error);
-                toast.error("Database connection failed");
+                toast.error("Network or server error");
             }
         };
 
@@ -169,7 +197,6 @@ const Admin = () => {
                                 value={loginForm.user}
                                 onChange={(e) => setLoginForm({ ...loginForm, user: e.target.value })}
                                 className="bg-white/[0.03] border-white/10 h-12 px-4"
-                                placeholder="admin"
                             />
                         </div>
                         <div className="space-y-2">
@@ -179,7 +206,6 @@ const Admin = () => {
                                 value={loginForm.pass}
                                 onChange={(e) => setLoginForm({ ...loginForm, pass: e.target.value })}
                                 className="bg-white/[0.03] border-white/10 h-12 px-4"
-                                placeholder="••••••••"
                             />
                         </div>
                         <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white h-12 font-bold mt-2">
@@ -220,18 +246,127 @@ const Admin = () => {
                                 <h2 className="text-xl font-bold">Quick Stats</h2>
                             </div>
                             <div className="grid grid-cols-3 gap-6 mb-8">
-                                {Object.entries(stats).map(([key, val]) => (
-                                    <div key={key} className="space-y-3">
-                                        <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">{key}</label>
+                                {[
+                                    { key: "experience", label: "Exp." },
+                                    { key: "advertising", label: "Ads" },
+                                    { key: "projects", label: "Proj." }
+                                ].map((item) => (
+                                    <div key={item.key} className="space-y-3">
+                                        <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">{item.label}</label>
                                         <Input
-                                            value={val}
-                                            onChange={(e) => setStats({ ...stats, [key]: e.target.value })}
+                                            value={(stats as any)[item.key]}
+                                            onChange={(e) => setStats({ ...stats, [item.key]: e.target.value })}
                                             className="bg-black/40 border-white/5 text-sm h-10 px-3"
                                         />
                                     </div>
                                 ))}
                             </div>
                             <Button onClick={saveStats} className="w-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-all">Save Changes</Button>
+                        </motion.div>
+
+                        {/* Hero Content */}
+                        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 }} className="bg-card/30 border border-white/5 rounded-[2rem] p-8 backdrop-blur-3xl">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="p-2 bg-primary/10 rounded-lg"><Type className="w-5 h-5 text-primary" /></div>
+                                <h2 className="text-xl font-bold">Hero Section</h2>
+                            </div>
+                            <div className="space-y-4 mb-8">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Title</label>
+                                    <Input
+                                        value={stats.hero_title}
+                                        onChange={(e) => setStats({ ...stats, hero_title: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Subtitle</label>
+                                    <Input
+                                        value={stats.hero_subtitle}
+                                        onChange={(e) => setStats({ ...stats, hero_subtitle: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Description</label>
+                                    <Textarea
+                                        value={stats.hero_description}
+                                        onChange={(e) => setStats({ ...stats, hero_description: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm min-h-[100px] px-3 py-2"
+                                    />
+                                </div>
+                            </div>
+                            <Button onClick={saveStats} className="w-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-all">Update Hero</Button>
+                        </motion.div>
+
+                        {/* About Content */}
+                        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="bg-card/30 border border-white/5 rounded-[2rem] p-8 backdrop-blur-3xl">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="p-2 bg-primary/10 rounded-lg"><Info className="w-5 h-5 text-primary" /></div>
+                                <h2 className="text-xl font-bold">About Section</h2>
+                            </div>
+                            <div className="space-y-4 mb-8">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Title</label>
+                                    <Input
+                                        value={stats.about_title}
+                                        onChange={(e) => setStats({ ...stats, about_title: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Heading</label>
+                                    <Input
+                                        value={stats.about_heading}
+                                        onChange={(e) => setStats({ ...stats, about_heading: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Description</label>
+                                    <Textarea
+                                        value={stats.about_description}
+                                        onChange={(e) => setStats({ ...stats, about_description: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm min-h-[120px] px-3 py-2"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Bullets (one per line)</label>
+                                    <Textarea
+                                        value={stats.about_bullets}
+                                        onChange={(e) => setStats({ ...stats, about_bullets: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm min-h-[100px] px-3 py-2"
+                                    />
+                                </div>
+                            </div>
+                            <Button onClick={saveStats} className="w-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-all">Update About</Button>
+                        </motion.div>
+
+                        {/* Contact Info */}
+                        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }} className="bg-card/30 border border-white/5 rounded-[2rem] p-8 backdrop-blur-3xl">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="p-2 bg-primary/10 rounded-lg"><MailIcon className="w-5 h-5 text-primary" /></div>
+                                <h2 className="text-xl font-bold">Contact Info</h2>
+                            </div>
+                            <div className="space-y-4 mb-8">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Email</label>
+                                    <Input
+                                        value={stats.contact_email}
+                                        onChange={(e) => setStats({ ...stats, contact_email: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] uppercase tracking-widest text-muted-foreground ml-1">Phone</label>
+                                    <Input
+                                        value={stats.contact_phone}
+                                        onChange={(e) => setStats({ ...stats, contact_phone: e.target.value })}
+                                        className="bg-black/40 border-white/5 text-sm h-10 px-3"
+                                    />
+                                </div>
+                            </div>
+                            <Button onClick={saveStats} className="w-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-all">Save Contact Info</Button>
                         </motion.div>
 
                         {/* CV */}
@@ -353,7 +488,7 @@ const Admin = () => {
                         {/* Recent Items List */}
                         <div className="space-y-6">
                             <h3 className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground ml-4">Managed Catalog</h3>
-                            {portfolioItems.length === 0 ? (
+                            {!Array.isArray(portfolioItems) || portfolioItems.length === 0 ? (
                                 <p className="text-xs text-muted-foreground italic ml-4 opacity-40">The library is currently empty...</p>
                             ) : (
                                 <div className="grid grid-cols-1 gap-4">

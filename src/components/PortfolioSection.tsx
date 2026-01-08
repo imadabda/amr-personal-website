@@ -26,7 +26,7 @@ const PortfolioSection = () => {
         const response = await fetch('/api/portfolio.php');
         if (response.ok) {
           const data = await response.json();
-          if (data && data.length > 0) {
+          if (Array.isArray(data) && data.length > 0) {
             setDisplayItems(data);
             return;
           }

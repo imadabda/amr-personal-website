@@ -15,10 +15,10 @@ const SkillsSection = () => {
   const skills = [
     { name: "Photoshop", level: 95, icon: photoshopIcon, color: "#31a8ff" },
     { name: "Premiere", level: 92, icon: premiereIcon, color: "#EA77FF" },
-    { name: "Illustrator", level: 88, icon: illustratorIcon, color: "#ff9a00" },
-    { name: "InDesign", level: 85, icon: indesignIcon, color: "#ff3366" },
+    { name: "Illustrator", level: 85, icon: illustratorIcon, color: "#ff9a00" },
+    { name: "InDesign", level: 80, icon: indesignIcon, color: "#ff3366" },
     { name: "Lightroom", level: 90, icon: lightroomIcon, color: "#31a8ff" },
-    { name: "After Effects", level: 80, icon: aftereffectsIcon, color: "#9999ff" },
+    { name: "After Effects", level: 25, icon: aftereffectsIcon, color: "#9999ff" },
   ];
 
   return (
